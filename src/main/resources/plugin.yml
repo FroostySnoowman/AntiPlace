@@ -1,0 +1,6 @@
+name: FailsOfGamer Core
+version: '${project.version}'
+main: nekobox.es.failsofgamercore.Main
+api-version: 1.20
+authors: [ Someone, FroostySnoowman ]
+website: nekobox.es
