@@ -1,6 +1,6 @@
-package nekobox.es.failsofgamercore.Listener;
+package nekobox.es.antiplace.Listener;
 
-import nekobox.es.failsofgamercore.Main;
+import nekobox.es.antiplace.Main;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,19 +26,29 @@ public class EventListener extends Event implements Listener {
     public void onBlockPlaceEvent(BlockPlaceEvent event) {
         Player player = event.getPlayer();
 
-        if (!player.hasPermission("fails.admin")) {
-            Material[] restrictedItems = {Material.OAK_SAPLING, Material.TWISTING_VINES, Material.CORNFLOWER, Material.RED_CANDLE, Material.FIRE_CORAL, Material.YELLOW_CANDLE, Material.WITHER_ROSE, Material.BROWN_MUSHROOM, Material.CHAIN, Material.HONEYCOMB_BLOCK};
+        if (!player.hasPermission("antiplace.admin")) {
+            String[] blockedItemStrings = this.main.config.getConfig().getStringList("Blocked_Items").toArray(new String[0]);
+
+            Material[] restrictedItems = new Material[blockedItemStrings.length];
+            for (int i = 0; i < blockedItemStrings.length; i++) {
+                try {
+                    restrictedItems[i] = Material.valueOf(blockedItemStrings[i]);
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+            }
+
             if (isRestrictedItem(event.getBlockPlaced().getType(), restrictedItems)) {
                 event.setCancelled(true);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&aPlugin &7> &cBlocked placing your offhand!"));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', this.main.config.getConfig().getString("Prefix") + " &cBlocked placing your offhand!"));
             }
         } else {
         }
     }
 
-    private boolean isRestrictedItem(Material item, Material[] restrictedItems) {
+    private boolean isRestrictedItem(Material material, Material[] restrictedItems) {
         for (Material restrictedItem : restrictedItems) {
-            if (item == restrictedItem) {
+            if (material == restrictedItem) {
                 return true;
             }
         }

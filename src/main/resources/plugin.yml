@@ -1,6 +1,6 @@
-name: FailsOfGamer Core
+name: AntiPlace
 version: '${project.version}'
-main: nekobox.es.failsofgamercore.Main
+main: nekobox.es.antiplace.Main
 api-version: 1.20
 authors: [ Someone, FroostySnoowman ]
 website: nekobox.es
